@@ -7,11 +7,10 @@ import java.awt.event.ActionListener;
 public class BankBalanceApp extends JFrame{
 
     // declare private fields
-    private JTextField balanceField;
     private JTextField deposit;
     private JTextField withdraw;
     private JLabel balanceLabel;
-    // all new account get a 100$ starting bonus!
+    // everyone gets a 100$ signing bonus for their new accounts, yay!
     private double accountBalance = 100.0;
 
     public BankBalanceApp() {
@@ -28,8 +27,6 @@ public class BankBalanceApp extends JFrame{
         mainPanel.setLayout(new GridLayout(2, 2, 5, 5));
     
         // create components for the main panel
-        // JLabel initialBalanceLabel = new JLabel("Starting Balance:");
-        // balanceField = new JTextField();
     
         JLabel depositLabel = new JLabel("Amount for deposit:");
         deposit = new JTextField();
@@ -37,9 +34,7 @@ public class BankBalanceApp extends JFrame{
         JLabel withdrawLabel = new JLabel("Withdraw Amount:");
         withdraw = new JTextField();
     
-        // add them to mainPanel
-        // mainPanel.add(initialBalanceLabel);
-        // mainPanel.add(balanceField);
+        // add to mainPanel
         mainPanel.add(depositLabel);
         mainPanel.add(deposit);
         mainPanel.add(withdrawLabel);
@@ -48,44 +43,29 @@ public class BankBalanceApp extends JFrame{
         // create a second panel for the buttons
         JPanel buttonPanel = new JPanel();
         
-        // JButton setBalanceButton = new JButton("Set Balance");
         JButton depositButton = new JButton("Deposit");
         JButton withdrawButton = new JButton("Withdraw");
-        JButton exitButton = new JButton("Exit");
         
-        // Initialize the balanceLabel (previously was null)
-        balanceLabel = new JLabel("Current balance: 0.00");
+
+        balanceLabel = new JLabel(String.format("Current Balance: %.2f", accountBalance));
     
-        // Add buttons and label to the buttonPanel
-        // buttonPanel.add(setBalanceButton);
+        // ad buttons and label to the buttonPanel
         buttonPanel.add(depositButton);
         buttonPanel.add(withdrawButton);
         buttonPanel.add(balanceLabel);
-        buttonPanel.add(exitButton);
         
-        // setBalanceButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent act){
-        //         try{
-        //             accountBalance = Double.parseDouble(balanceField.getText());
-        //             balanceField.setText("");
-        //             balanceLabel.setText(String.format("Current Balance: %.2f", accountBalance));
-        //         }catch(NumberFormatException e){
-        //             JOptionPane.showMessageDialog(BankBalanceApp.this, e);
-        //         }
-        //     }
-        // });
-
+        // create button listener for deposit button
         depositButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent act){
                 try{
                     double depositAmount = Double.parseDouble(deposit.getText());
-
+                    // make sure deposit is greater than 0
                     if( depositAmount <= 0){
                         JOptionPane.showMessageDialog(BankBalanceApp.this, "Cannot deposit 0 or negative amount");
                         balanceLabel.setText(String.format("Current Balance: %.2f", accountBalance));
                     }else{
+                        // add deposit to account balance
                         accountBalance += depositAmount;
                         deposit.setText("");
                         balanceLabel.setText(String.format("Current Balance: %.2f", accountBalance));
@@ -97,7 +77,7 @@ public class BankBalanceApp extends JFrame{
             }
         });
 
-
+        // create withdraw button listener
         withdrawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent act){
@@ -126,7 +106,7 @@ public class BankBalanceApp extends JFrame{
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     
-       
+        // MAKE IT SHOW UP ON THE SCREEN!
         setVisible(true);
     }
     
